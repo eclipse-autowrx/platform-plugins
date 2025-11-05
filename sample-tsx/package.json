@@ -1,0 +1,22 @@
+{
+  "name": "sample-tsx-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:watch dev:serve",
+    "dev:watch": "nodemon --watch src --ext ts,tsx --exec 'bash build.sh'",
+    "dev:serve": "http-server -p 4000 --cors -c-1",
+    "build": "bash build-dist.sh"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.4.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.0",
+    "http-server": "^14.1.1",
+    "nodemon": "^3.1.10",
+    "npm-run-all": "^4.1.5"
+  }
+}
+

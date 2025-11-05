@@ -1,0 +1,493 @@
+/* src/styles.css */
+:root {
+  --color-primary: #3b82f6;
+  --color-secondary: #6366f1;
+  --color-white: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-700: #374151;
+  --color-gray-900: #111827;
+  --color-red-500: #ef4444;
+  --color-red-100: #fee2e2;
+}
+* {
+  box-sizing: border-box;
+}
+.flow-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  background-color: var(--color-white);
+  border-radius: 6px;
+  padding: 1rem 2.5rem;
+}
+.flow-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-gray-200);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+.flow-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+.flow-spacer {
+  flex-grow: 1;
+}
+.flow-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.flow-button-primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+.flow-button-primary:hover {
+  background-color: #2563eb;
+}
+.flow-button-outline {
+  background-color: transparent;
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-700);
+}
+.flow-button-outline:hover {
+  background-color: var(--color-gray-50);
+}
+.flow-button-ghost {
+  background-color: transparent;
+  color: var(--color-primary);
+}
+.flow-button-ghost:hover {
+  background-color: var(--color-gray-50);
+}
+.flow-button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+.flow-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.flow-table colgroup col:nth-child(odd) {
+  width: 17.76%;
+}
+.flow-table colgroup col:nth-child(even) {
+  width: 2.80%;
+  min-width: 40px;
+}
+.flow-thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background:
+    linear-gradient(
+      to bottom right,
+      var(--color-secondary),
+      var(--color-primary));
+  color: var(--color-white);
+}
+.flow-thead th {
+  font-weight: 600;
+  padding: 0.5rem;
+  border: 1px solid var(--color-white);
+  text-align: center;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.flow-tooltip {
+  cursor: pointer;
+  position: relative;
+}
+.flow-spacer-row td {
+  height: 0.75rem;
+}
+.flow-spacer-row td:nth-child(even) {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+.flow-spacer-row td:nth-child(odd) {
+  background-color: var(--color-white);
+}
+.flow-step-title {
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  height: 2.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  display: flex;
+  align-items: center;
+}
+.flow-step-chevron-left {
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 47px;
+  height: 47px;
+  color: var(--color-white);
+  fill: currentColor;
+}
+.flow-step-chevron-right {
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translate(50%, -50%);
+  width: 47px;
+  height: 47px;
+  color: var(--color-primary);
+  fill: currentColor;
+}
+.flow-cell {
+  border: 1px solid var(--color-gray-300);
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+.flow-cell-signal {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+.flow-cell-content {
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: 1.75rem;
+}
+.flow-arrow {
+  margin: 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-primary);
+}
+.flow-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.flow-checkbox {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+.flow-checkbox-label {
+  font-size: 0.875rem;
+  cursor: pointer;
+  user-select: none;
+}
+.flow-empty {
+  border: 1px solid var(--color-gray-300);
+  padding: 0.5rem;
+  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 0.875rem;
+}
+.flow-editor-container {
+  padding: 1rem;
+  background-color: var(--color-gray-50);
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+.flow-editor-textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 0.75rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.375rem;
+  resize: vertical;
+}
+.flow-editor-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.flow-icon {
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+.asil-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+}
+.asil-badge-a {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+.asil-badge-b {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.asil-badge-c {
+  background-color: #fed7aa;
+  color: #9a3412;
+}
+.asil-badge-d {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+.asil-badge-qm {
+  background-color: #d1d5db;
+  color: #374151;
+}
+.flow-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.flow-dropdown-trigger {
+  cursor: pointer;
+}
+.flow-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.5rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  min-width: 250px;
+  max-width: 500px;
+  max-height: 50vh;
+  overflow-y: auto;
+  font-size: 0.75rem;
+}
+.flow-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.flow-dropdown-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.flow-dropdown-close {
+  padding: 0.125rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-radius: 0.375rem;
+}
+.flow-dropdown-close:hover {
+  color: var(--color-red-500);
+  background-color: var(--color-red-100);
+}
+.flow-dropdown-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+.flow-dropdown-field {
+  display: flex;
+}
+.flow-dropdown-field-label {
+  font-weight: 600;
+  margin-right: 0.25rem;
+  color: var(--color-gray-700);
+}
+.flow-dropdown-link {
+  text-decoration: underline;
+  color: #3b82f6;
+}
+.flow-dropdown-link:hover {
+  color: #2563eb;
+}
+.flow-interface-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  min-height: 1.75rem;
+  justify-content: center;
+}
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.flow-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.flow-modal-content {
+  background-color: var(--color-white);
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.2s ease-out;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.flow-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+.flow-modal-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-gray-900);
+}
+.flow-modal-close {
+  padding: 0.25rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-radius: 0.375rem;
+  color: var(--color-gray-700);
+}
+.flow-modal-close:hover {
+  background-color: var(--color-gray-100);
+}
+.flow-modal-body {
+  padding: 1.25rem;
+  flex: 1;
+  overflow-y: auto;
+}
+.flow-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border-top: 1px solid var(--color-gray-200);
+}
+.flow-modal-textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 0.75rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 0.375rem;
+  resize: vertical;
+}
+.flow-modal-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.flow-modal-hint {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-gray-700);
+  line-height: 1.5;
+}
+.flow-cell-editable {
+  cursor: pointer;
+  position: relative;
+}
+.flow-cell-editable:hover {
+  background-color: var(--color-gray-50);
+}
+.flow-cell-edit-icon {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--color-primary);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.flow-cell-editable:hover .flow-cell-edit-icon {
+  opacity: 1;
+}
+.flow-button-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+.flow-button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.flow-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+}
+.flow-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: auto;
+  background-color: var(--color-white);
+}
+/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  code-server:
+    # Official Coder image
+    image: codercom/code-server:latest
+    container_name: vscode_web_server
+    
+    # Map the container port (8080) to a host port (8080 or choose another)
+    ports:
+      - "8080:8080"
+      
+    environment:
+      # CRITICAL for iFrame Embedding: Set the allowed referrer domain
+      # Replace 'https://your-embedding-domain.com' with the actual domain.
+      # Use '*' to allow all (less secure), but prefer the specific domain.
+      # This is passed as a command-line argument using the --allow-http-referer flag.
+      # Note: For multiple domains, separate them with spaces, e.g., "https://domain1.com https://domain2.com"
+      # CODE_SERVER_ARGS: --allow-http-referer 'https://your-embedding-domain.com' --bind-addr 0.0.0.0:8080
+      CODE_SERVER_ARGS: --allow-http-referer '*' --bind-addr 0.0.0.0:8080
+
+      # Authentication: Recommended to set a strong password
+      PASSWORD: "123456" 
+      
+      # Set your user ID/Group ID for file permissions on macOS
+      # Use the 'id -u' and 'id -g' commands on your Mac to get these values
+      # PUID: 1000 
+      # PGID: 1000
+      
+    volumes:
+      # Persist the VS Code settings and extensions
+      - ./config:/home/coder/.config
+      # Map a local folder to the container's workspace
+      - ./project:/home/coder/project
+      
+    restart: unless-stopped

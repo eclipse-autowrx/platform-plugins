@@ -1,0 +1,39 @@
+# Dependencies
+**/node_modules/
+**/bower_components/
+**/.claude/
+
+**/ref/
+
+**/vs-code/
+
+# Build outputs
+**/dist/
+**/build/
+**/out/
+*.log
+
+# IDE and editor files
+**/.vscode/
+**/.idea/
+*.swp
+*.swo
+*~
+**/.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Testing
+**/coverage/
+**/.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+**/.cache/
+
+# OS files
+Thumbs.db

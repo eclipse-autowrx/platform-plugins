@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flow Plugin Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+    }
+    #root {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      min-height: 600px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 8px 8px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Flow Plugin Test</h1>
+  <div id="root"></div>
+
+  <!-- Load React from CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- Load the plugin -->
+  <script src="./index.js"></script>
+
+  <script>
+    // Make React available globally for the plugin
+    window.React = React;
+    window.ReactDOM = ReactDOM;
+
+    // Sample flow data
+    const mockFlowData = [
+      {
+        title: "User Authentication Flow",
+        flows: [
+          {
+            offBoard: {
+              smartPhone: JSON.stringify({
+                type: "Mobile App",
+                component: "Authentication Service",
+                description: "User initiates login",
+                preAsilLevel: "QM",
+                postAsilLevel: "QM"
+              }),
+              p2c: {
+                direction: "right",
+                signal: JSON.stringify({
+                  endpointUrl: "https://api.example.com/auth",
+                  name: "Auth Request",
+                  protocol: "HTTPS"
+                })
+              },
+              cloud: JSON.stringify({
+                type: "Cloud Service",
+                component: "Auth Server",
+                description: "Validates credentials",
+                preAsilLevel: "A",
+                postAsilLevel: "QM"
+              })
+            },
+            v2c: {
+              direction: "bi-direction",
+              signal: JSON.stringify({
+                endpointUrl: "https://api.example.com/vehicle",
+                name: "Vehicle Status",
+                protocol: "MQTT"
+              })
+            },
+            onBoard: {
+              sdvRuntime: JSON.stringify({
+                type: "Runtime Service",
+                component: "Vehicle OS",
+                description: "Processes vehicle commands",
+                preAsilLevel: "B",
+                postAsilLevel: "QM"
+              }),
+              s2s: {
+                direction: "right",
+                signal: JSON.stringify({
+                  name: "CAN Bus Signal",
+                  protocol: "CAN"
+                })
+              },
+              embedded: JSON.stringify({
+                type: "ECU",
+                component: "Body Control Module",
+                description: "Controls vehicle functions",
+                preAsilLevel: "C",
+                postAsilLevel: "B"
+              }),
+              s2e: {
+                direction: "right",
+                signal: JSON.stringify({
+                  name: "Sensor Data",
+                  protocol: "LIN"
+                })
+              },
+              sensors: JSON.stringify({
+                type: "Sensor",
+                component: "Temperature Sensor",
+                description: "Monitors temperature",
+                preAsilLevel: "QM",
+                postAsilLevel: "QM"
+              })
+            }
+          }
+        ]
+      },
+      {
+        title: "Vehicle Control Flow",
+        flows: [
+          {
+            offBoard: {
+              smartPhone: "Remote Start Command <ASIL-A>",
+              p2c: {
+                direction: "right",
+                signal: "Command Signal"
+              },
+              cloud: "Process Command <ASIL-B>"
+            },
+            v2c: {
+              direction: "down-right",
+              signal: "Vehicle Control Signal"
+            },
+            onBoard: {
+              sdvRuntime: "Execute Command <ASIL-C>",
+              s2s: {
+                direction: "bi-direction",
+                signal: "System Communication"
+              },
+              embedded: "Control Unit Response <ASIL-D>",
+              s2e: {
+                direction: "left",
+                signal: "Feedback Signal"
+              },
+              sensors: "Sensor Reading <QM>"
+            }
+          }
+        ]
+      }
+    ];
+
+    // Mount the plugin
+    const root = document.getElementById('root');
+    if (window.DAPlugins && window.DAPlugins['page-plugin']) {
+      const plugin = window.DAPlugins['page-plugin'];
+      plugin.mount(root, {
+        data: { flow: mockFlowData },
+        config: {
+          onChange: (newFlow) => {
+            console.log('Flow updated:', newFlow);
+          }
+        }
+      });
+      console.log('✅ Plugin mounted successfully!');
+    } else {
+      console.error('❌ Plugin not found. Make sure index.js is loaded.');
+      root.innerHTML = '<div style="padding: 40px; text-align: center; color: red;">Plugin failed to load. Check console for errors.</div>';
+    }
+  </script>
+</body>
+</html>
+
