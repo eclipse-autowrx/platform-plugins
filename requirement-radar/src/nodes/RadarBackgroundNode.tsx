@@ -38,79 +38,88 @@ const RadarBackgroundNode: React.FC<RadarBackgroundNodeProps> = ({
     Z
   `;
 
+  const nodeSize = 2 * size;
+  
   return (
-    <svg
-      width={2 * size}
-      height={2 * size}
-      style={{ pointerEvents: 'none' }}
-      className={isScanning ? 'animate-pulse' : ''}
+    <div
+      style={{
+        width: nodeSize,
+        height: nodeSize,
+        pointerEvents: 'none',
+      }}
     >
-      {/* Filled bands */}
-      {Array.from({ length: rings }).map((_, idx) => {
-        const ringIndex = rings - idx;
-        const radius = (ringIndex / rings) * size;
-        return (
-          <circle
-            key={`fill-${ringIndex}`}
-            cx={size}
-            cy={size}
-            r={radius}
-            fill={fillColor(ringIndex)}
-          />
-        );
-      })}
+      <svg
+        width={nodeSize}
+        height={nodeSize}
+        style={{ display: 'block' }}
+        className={isScanning ? 'req-radar-animate-pulse' : ''}
+      >
+        {/* Filled bands */}
+        {Array.from({ length: rings }).map((_, idx) => {
+          const ringIndex = rings - idx;
+          const radius = (ringIndex / rings) * size;
+          return (
+            <circle
+              key={`fill-${ringIndex}`}
+              cx={size}
+              cy={size}
+              r={radius}
+              fill={fillColor(ringIndex)}
+            />
+          );
+        })}
 
-      {/* Stroke outlines */}
-      {Array.from({ length: rings }).map((_, idx) => {
-        const radius = ((idx + 1) / rings) * size;
-        return (
-          <circle
-            key={`ring-${idx}`}
-            cx={size}
-            cy={size}
-            r={radius}
-            fill="none"
-            stroke="rgba(0,0,0,0.1)"
-            strokeWidth={1.5}
-          />
-        );
-      })}
+        {/* Stroke outlines */}
+        {Array.from({ length: rings }).map((_, idx) => {
+          const radius = ((idx + 1) / rings) * size;
+          return (
+            <circle
+              key={`ring-${idx}`}
+              cx={size}
+              cy={size}
+              r={radius}
+              fill="none"
+              stroke="rgba(0,0,0,0.1)"
+              strokeWidth={1.5}
+            />
+          );
+        })}
 
-      {/* Spokes */}
-      {Array.from({ length: spokes }).map((_, i) => {
-        const angle = (2 * Math.PI * i) / spokes - Math.PI / 2;
-        const x2 = size + Math.cos(angle) * size;
-        const y2 = size + Math.sin(angle) * size;
-        return (
-          <line
-            key={`spoke-${i}`}
-            x1={size}
-            y1={size}
-            x2={x2}
-            y2={y2}
-            stroke="rgba(0,0,0,0.1)"
-            strokeWidth={1.5}
-          />
-        );
-      })}
+        {/* Spokes */}
+        {Array.from({ length: spokes }).map((_, i) => {
+          const angle = (2 * Math.PI * i) / spokes - Math.PI / 2;
+          const x2 = size + Math.cos(angle) * size;
+          const y2 = size + Math.sin(angle) * size;
+          return (
+            <line
+              key={`spoke-${i}`}
+              x1={size}
+              y1={size}
+              x2={x2}
+              y2={y2}
+              stroke="rgba(0,0,0,0.1)"
+              strokeWidth={1.5}
+            />
+          );
+        })}
 
-      {/* Scanning sweep */}
-      {isScanning && (
-        <g transform={`rotate(0 ${size} ${size})`}>
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from={`0 ${size} ${size}`}
-            to={`360 ${size} ${size}`}
-            dur="3s"
-            repeatCount="indefinite"
-          />
-          <path d={sweepPath} fill={SWEEP_COLOR} />
-        </g>
-      )}
-    </svg>
+        {/* Scanning sweep */}
+        {isScanning && (
+          <g transform={`rotate(0 ${size} ${size})`}>
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from={`0 ${size} ${size}`}
+              to={`360 ${size} ${size}`}
+              dur="3s"
+              repeatCount="indefinite"
+            />
+            <path d={sweepPath} fill={SWEEP_COLOR} />
+          </g>
+        )}
+      </svg>
+    </div>
   );
 };
 
 export default RadarBackgroundNode;
-

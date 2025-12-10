@@ -4,11 +4,13 @@ const React: any = (globalThis as any).React;
 // Simple requirement store using React hooks
 let requirementsState: any[] = [];
 let scanningState: boolean = false;
+let selectedRequirementIdState: string | null = null;
 const listeners: Set<Function> = new Set();
 
 export const useRequirementStore = () => {
   const [requirements, setRequirements] = React.useState(requirementsState);
   const [isScanning, setIsScanning] = React.useState(scanningState);
+  const [selectedRequirementId, setSelectedRequirementId] = React.useState(selectedRequirementIdState);
 
   React.useEffect(() => {
     const listener = () => {
@@ -16,6 +18,7 @@ export const useRequirementStore = () => {
       const newReqs = Array.isArray(requirementsState) ? requirementsState : [];
       setRequirements([...newReqs]);
       setIsScanning(scanningState);
+      setSelectedRequirementId(selectedRequirementIdState);
     };
     listeners.add(listener);
     return () => {
@@ -47,12 +50,19 @@ export const useRequirementStore = () => {
     listeners.forEach(l => l());
   };
 
+  const setSelectedRequirementIdGlobal = (id: string | null) => {
+    selectedRequirementIdState = id;
+    listeners.forEach(l => l());
+  };
+
   return {
     requirements,
     isScanning,
+    selectedRequirementId,
     setRequirements: setRequirementsGlobal,
     startScanning,
     stopScanning,
+    setSelectedRequirementId: setSelectedRequirementIdGlobal,
   };
 };
 
@@ -72,5 +82,6 @@ export const setRequirementsState = (reqs: any[] | ((prev: any[]) => any[])) => 
 (useRequirementStore as any).getState = () => ({
   requirements: requirementsState,
   isScanning: scanningState,
+  selectedRequirementId: selectedRequirementIdState,
 });
 

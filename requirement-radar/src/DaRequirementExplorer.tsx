@@ -2,8 +2,8 @@
 const React: any = (globalThis as any).React;
 import {
   ReactFlow,
-  Background,
-  Panel,
+  useReactFlow,
+  applyNodeChanges,
 } from '@xyflow/react';
 
 import RequirementNode from './nodes/RequirementNode';
@@ -14,6 +14,8 @@ const nodeTypes = {
   radarBackground: RadarBackgroundNode,
   requirementNode: RequirementNode,
 };
+
+console.log('🔵 Registered nodeTypes:', Object.keys(nodeTypes));
 
 const MAX_RADIUS = 600;
 const MIN_RADIUS = 20;
@@ -26,25 +28,33 @@ interface DaRequirementExplorerProps {
 }
 
 const Legend: React.FC = () => (
-  <div className="border border-gray-200 bg-white p-3 text-da-gray-dark rounded-md shadow-md text-xs">
-    <h4 className="font-semibold mb-2">Legend</h4>
-    <div className="mb-3">
-      <div className="flex items-center mb-2">
+  <div 
+    className="req-radar-border req-radar-border-color req-radar-bg-background req-radar-p-3 req-radar-text-foreground req-radar-rounded req-radar-shadow-md req-radar-text-xs"
+    style={{
+      borderWidth: '1px',
+      borderColor: 'var(--req-radar-border, oklch(0.929 0.013 255.508))',
+      backgroundColor: 'var(--req-radar-background, oklch(1 0 0))',
+      color: 'var(--req-radar-foreground, oklch(0.4199 0.0374 257.28))',
+    }}
+  >
+    <h4 className="req-radar-font-semibold req-radar-mb-2" style={{ color: 'var(--req-radar-foreground, oklch(0.4199 0.0374 257.28))' }}>Legend</h4>
+    <div className="req-radar-mb-3">
+      <div className="req-radar-flex req-radar-items-center req-radar-mb-2">
         <div
-          className="w-4 h-4 rounded-full mr-2"
-          style={{ backgroundColor: '#005072' }}
+          className="req-radar-w-4 req-radar-h-4 req-radar-rounded-full req-radar-mr-2"
+          style={{ backgroundColor: 'var(--req-radar-primary, oklch(0.35 0.08 230))' }}
         />
-        <span>Local Requirements</span>
+        <span style={{ color: 'var(--req-radar-foreground, oklch(0.4199 0.0374 257.28))' }}>Local Requirements</span>
       </div>
-      <div className="flex items-center">
+      <div className="req-radar-flex req-radar-items-center">
         <div
-          className="w-4 h-4 rounded-full mr-2"
-          style={{ backgroundColor: '#aebd38' }}
+          className="req-radar-w-4 req-radar-h-4 req-radar-rounded-full req-radar-mr-2"
+          style={{ backgroundColor: 'var(--req-radar-secondary, oklch(0.7626 0.1532 115.73))' }}
         />
-        <span>Global Requirements</span>
+        <span style={{ color: 'var(--req-radar-foreground, oklch(0.4199 0.0374 257.28))' }}>Global Requirements</span>
       </div>
     </div>
-    <div className="space-y-1">
+    <div className="req-radar-space-y-1" style={{ color: 'var(--req-radar-muted-foreground, oklch(0.554 0.046 257.417))' }}>
       <div>Larger circles = Higher impact</div>
       <div>Closer to center = More relevant</div>
     </div>
@@ -73,12 +83,33 @@ function safeScore(raw: any): number {
   return 3; // Use middle value instead of random
 }
 
+const ReactFlowContent: React.FC = () => {
+  return null;
+};
+
 const DaRequirementExplorer: React.FC<DaRequirementExplorerProps> = ({
   onDelete,
   onEdit,
 }) => {
   const [nodes, setNodes] = React.useState([]);
   const { requirements } = useRequirementStore();
+  const { fitView } = useReactFlow();
+  const hasFittedOnLoad = React.useRef(false);
+
+  const onNodesChange = (changes: any) => {
+    setNodes((nds) => applyNodeChanges(changes, nds));
+
+    if (!hasFittedOnLoad.current) {
+      const dimensionChange = changes.find(
+        (change: any) => change.type === 'dimensions' && change.id === 'radar-bg'
+      );
+
+      if (dimensionChange) {
+        fitView({ padding: 0.2, duration: 0 });
+        hasFittedOnLoad.current = true;
+      }
+    }
+  };
 
   React.useEffect(() => {
     console.log('🔄 DaRequirementExplorer requirements changed:', requirements.length, 'requirements');
@@ -88,13 +119,17 @@ const DaRequirementExplorer: React.FC<DaRequirementExplorerProps> = ({
     const reqs = Array.isArray(requirements) ? requirements : [];
     const total = reqs.length;
 
-    // Always build the radar-background node
+    const bgNodeSize = 2 * MAX_RADIUS;
     const bgNode = {
       id: 'radar-bg',
       type: 'radarBackground',
       position: { x: -MAX_RADIUS, y: -MAX_RADIUS },
       data: { size: MAX_RADIUS, spokes: 8, rings: 5 },
-      style: { pointerEvents: 'none' },
+      style: { 
+        pointerEvents: 'none',
+        width: bgNodeSize,
+        height: bgNodeSize,
+      },
     };
 
     if (total === 0) {
@@ -129,12 +164,11 @@ const DaRequirementExplorer: React.FC<DaRequirementExplorerProps> = ({
         const im = safeScore(raw.impact);
 
         avgScore = (pr + rl + im) / 3;
-        const norm = 1 - avgScore / MAX_RATING;
+        const norm = avgScore / MAX_RATING;
 
         radius =
-          MIN_RADIUS +
-          ((MAX_RADIUS - MIN_RADIUS) * (MAX_RATING - avgScore)) /
-            (MAX_RATING - 1);
+          MAX_RADIUS -
+          ((MAX_RADIUS - MIN_RADIUS) * (avgScore - 1)) / (MAX_RATING - 1);
 
         const MIN_NODE_SIZE = 12;
         const MAX_NODE_SIZE = 70;
@@ -152,10 +186,10 @@ const DaRequirementExplorer: React.FC<DaRequirementExplorerProps> = ({
       }
 
       const color =
-        (req.source?.type || 'external') === 'internal' ? '#005072' : '#aebd38';
+        (req.source?.type || 'external') === 'internal' 
+          ? 'var(--req-radar-primary, oklch(0.35 0.08 230))' 
+          : 'var(--req-radar-secondary, oklch(0.7626 0.1532 115.73))';
 
-      // ReactFlow positions nodes by top-left corner, so offset by half the node size
-      // to center the circle at the calculated (x, y) polar coordinate
       const halfSize = nodeSize / 2;
 
       return {
@@ -181,6 +215,7 @@ const DaRequirementExplorer: React.FC<DaRequirementExplorerProps> = ({
           onDelete,
           onEdit,
         },
+        hidden: req.isHidden,
         style: {
           width: nodeSize,
           height: nodeSize,
@@ -193,47 +228,63 @@ const DaRequirementExplorer: React.FC<DaRequirementExplorerProps> = ({
 
   React.useEffect(() => {
     console.log('🎨 DaRequirementExplorer updating nodes:', initialNodes.length, 'nodes');
+    console.log('🎨 Node IDs:', initialNodes.map((n: any) => n.id));
+    console.log('🎨 All node positions:', initialNodes.map((n: any) => ({
+      id: n.id,
+      position: n.position,
+      size: n.style?.width || 'unknown',
+    })));
     setNodes(initialNodes as any);
   }, [initialNodes]);
 
+
   return (
-    <div className="flex w-full h-full rounded-xl overflow-hidden" 
-      style={{ maxHeight: 'calc(100% - 10px)', position: 'relative' }}>
+    <div className="req-radar-flex req-radar-w-full req-radar-h-full req-radar-rounded-xl req-radar-overflow-hidden req-radar-border" 
+      style={{ 
+        minHeight: '500px', 
+        height: '100%', 
+        position: 'relative',
+        borderWidth: '2px',
+        borderColor: '#e5e7eb',
+        borderStyle: 'solid'
+      }}>
       <ReactFlow
         nodes={nodes}
         nodeTypes={nodeTypes}
-        fitView
+        onNodesChange={onNodesChange}
         nodesDraggable={false}
         nodesConnectable={false}
-        panOnDrag={true}
-        zoomOnScroll={true}
-        zoomOnPinch={true}
+        panOnDrag={false}
+        zoomOnScroll={false}
+        zoomOnPinch={false}
         minZoom={0.1}
         maxZoom={4}
-        proOptions={{ hideAttribution: false }}
-        style={{ width: '100%', height: '100%' }}
+        fitView={false}
+        fitViewOptions={{
+          padding: 0.2,
+          includeHiddenNodes: false,
+          minZoom: 0.1,
+          maxZoom: 2,
+        }}
+        onMove={(event, viewport) => {
+          console.log('🔍 ReactFlow onMove - Zoom:', viewport.zoom, 'Position:', { x: viewport.x, y: viewport.y });
+        }}
+        onMoveStart={(event, viewport) => {
+          console.log('🔍 ReactFlow onMoveStart - Zoom:', viewport.zoom);
+        }}
+        onMoveEnd={(event, viewport) => {
+          console.log('🔍 ReactFlow onMoveEnd - Zoom:', viewport.zoom, 'Position:', { x: viewport.x, y: viewport.y });
+        }}
+        proOptions={{ hideAttribution: true }}
+        style={{ width: '100%', height: '100%', minHeight: '500px' }}
       >
-        {/* <Panel position="bottom-left">
+        <ReactFlowContent />
+        <div style={{ position: 'absolute', bottom: '15px', left: '15px', zIndex: 6 }}>
           <Legend />
-        </Panel> */}
+        </div>
       </ReactFlow>
-      {/* <div style={{
-        position: 'absolute',
-        bottom: '5px',
-        right: '10px',
-        fontSize: '10px',
-        color: '#999',
-        zIndex: 5,
-        background: 'rgba(255, 255, 255, 0.5)',
-        padding: '2px 5px'
-      }}>
-        <a href="https://reactflow.dev" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#999' }}>
-          React Flow
-        </a>
-      </div> */}
     </div>
   );
 };
 
 export default DaRequirementExplorer;
-

@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Build TSX plugin as UMD bundle (not ESM) for easier loading
+# Build TSX plugin for production deployment
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-OUT_DIR="$ROOT_DIR"
-mkdir -p "$OUT_DIR"
+DIST_DIR="$ROOT_DIR/dist"
+
+# Clean and create dist directory
+rm -rf "$DIST_DIR"
+mkdir -p "$DIST_DIR"
 
 # Install dependencies if package.json exists
 if [ -f "${ROOT_DIR}/package.json" ]; then
@@ -13,7 +16,7 @@ if [ -f "${ROOT_DIR}/package.json" ]; then
   npm install --silent
 fi
 
-# Build with esbuild
+# Build with esbuild for production
 # External packages: react, react-dom/client, react/jsx-runtime (provided by host)
 # All other dependencies will be bundled into the plugin
 npx esbuild "${ROOT_DIR}/src/index.ts" \
@@ -24,16 +27,8 @@ npx esbuild "${ROOT_DIR}/src/index.ts" \
   --external:react \
   --external:react-dom/client \
   --external:react/jsx-runtime \
-  --loader:.css=text \
-  --sourcemap \
-  --outfile="${OUT_DIR}/index.js"
-
-# Build CSS
-npx esbuild "${ROOT_DIR}/src/styles.css" \
-  --bundle \
   --minify \
   --sourcemap \
-  --outfile="${OUT_DIR}/index.css"
+  --outfile="${DIST_DIR}/index.js"
 
-echo "Built CSS to ${OUT_DIR}/index.css"
-echo "Built plugin to ${OUT_DIR}/index.js"
+echo "Built production plugin to ${DIST_DIR}/index.js"
