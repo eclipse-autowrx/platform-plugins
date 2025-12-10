@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plugin Test</title>
+    <!-- Load React from CDN for plugins (must be before our app script) -->
+    <!-- Using development builds for better error messages during development -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script>
+      // Provide require shim for plugins that use require('react')
+      // This allows esbuild-built plugins with external React to work
+      (function() {
+        if (typeof window !== 'undefined' && typeof window.require === 'undefined') {
+          window.require = function(moduleName) {
+            if (moduleName === 'react') {
+              return window.React;
+            }
+            if (moduleName === 'react-dom/client') {
+              // react-dom/client exports createRoot and other client APIs
+              // The CDN UMD bundle exposes ReactDOM.createRoot
+              if (window.ReactDOM && window.ReactDOM.createRoot) {
+                return {
+                  createRoot: window.ReactDOM.createRoot.bind(window.ReactDOM)
+                };
+              }
+              // Fallback: create a wrapper if createRoot is not directly available
+              return {
+                createRoot: function(container) {
+                  // If ReactDOM.createRoot exists, use it
+                  if (window.ReactDOM.createRoot) {
+                    return window.ReactDOM.createRoot(container);
+                  }
+                  // Otherwise, this is an older React version
+                  throw new Error('ReactDOM.createRoot is not available. Please use React 18+');
+                }
+              };
+            }
+            if (moduleName === 'react/jsx-runtime') {
+              // Provide jsx-runtime shim
+              return {
+                jsx: window.React.createElement,
+                jsxs: window.React.createElement,
+                Fragment: window.React.Fragment
+              };
+            }
+            throw new Error('Cannot find module: ' + moduleName);
+          };
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

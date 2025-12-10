@@ -13,25 +13,25 @@ const DaRequirementTable: React.FC<Props> = ({ onDelete, onEdit }) => {
 
   if (!requirements || requirements.length === 0) {
     return (
-      <div className="w-full h-full flex items-center justify-center overflow-auto rounded-xl border">
-        <div className="text-center p-3">
-          <p className="text-lg font-semibold text-da-gray-dark">No requirements found</p>
+      <div className="req-radar-w-full req-radar-h-full req-radar-flex req-radar-items-center req-radar-justify-center req-radar-overflow-auto req-radar-rounded-xl req-radar-border">
+        <div className="req-radar-text-center req-radar-p-3">
+          <p className="req-radar-text-lg req-radar-font-semibold req-radar-text-gray-dark">No requirements found</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-full overflow-auto rounded-xl border">
-      <table className="w-full" style={{ borderCollapse: 'collapse' }}>
-        <thead className="bg-gray-100">
+    <div className="req-radar-w-full req-radar-h-full req-radar-overflow-auto req-radar-rounded-xl req-radar-border">
+      <table className="req-radar-w-full" style={{ borderCollapse: 'collapse' }}>
+        <thead className="req-radar-bg-gray-100">
           <tr>
-            <th className="font-semibold text-da-primary-500 p-3 text-left border-b">ID</th>
-            <th className="font-semibold text-da-primary-500 p-3 text-left border-b">Title</th>
-            <th className="font-semibold text-da-primary-500 p-3 text-left border-b">Description</th>
-            <th className="font-semibold text-da-primary-500 p-3 text-left border-b">Type</th>
-            <th className="font-semibold text-da-primary-500 p-3 text-left border-b">Source</th>
-            <th className="font-semibold text-da-primary-500 p-3 text-left border-b">Rating</th>
+            <th className="req-radar-font-semibold req-radar-text-primary-500 req-radar-p-3 req-radar-text-left req-radar-border-b">ID</th>
+            <th className="req-radar-font-semibold req-radar-text-primary-500 req-radar-p-3 req-radar-text-left req-radar-border-b">Title</th>
+            <th className="req-radar-font-semibold req-radar-text-primary-500 req-radar-p-3 req-radar-text-left req-radar-border-b">Description</th>
+            <th className="req-radar-font-semibold req-radar-text-primary-500 req-radar-p-3 req-radar-text-left req-radar-border-b">Type</th>
+            <th className="req-radar-font-semibold req-radar-text-primary-500 req-radar-p-3 req-radar-text-left req-radar-border-b">Source</th>
+            <th className="req-radar-font-semibold req-radar-text-primary-500 req-radar-p-3 req-radar-text-left req-radar-border-b">Rating</th>
           </tr>
         </thead>
         <tbody>
@@ -39,26 +39,26 @@ const DaRequirementTable: React.FC<Props> = ({ onDelete, onEdit }) => {
             const r = req.rating || { priority: 3, relevance: 3, impact: 3 };
             const avg = (r.priority + r.relevance + r.impact) / 3;
             return (
-              <tr key={req.id} className="hover:bg-gray-100">
-                <td className="p-3 border-b text-xs">{req.id}</td>
-                <td className="p-3 border-b text-sm">{req.title}</td>
-                <td className="p-3 border-b text-xs">{req.description?.substring(0, 100)}...</td>
-                <td className="p-3 border-b text-xs">{req.type}</td>
-                <td className="p-3 border-b text-xs">
+              <tr key={req.id} className="req-radar-hover-bg-gray-100">
+                <td className="req-radar-p-3 req-radar-border-b req-radar-text-xs">{req.id}</td>
+                <td className="req-radar-p-3 req-radar-border-b req-radar-text-sm">{req.title}</td>
+                <td className="req-radar-p-3 req-radar-border-b req-radar-text-xs">{req.description?.substring(0, 100)}...</td>
+                <td className="req-radar-p-3 req-radar-border-b req-radar-text-xs">{req.type}</td>
+                <td className="req-radar-p-3 req-radar-border-b req-radar-text-xs">
                   {req.source?.type === 'external' && req.source?.link ? (
                     <a
                       href={req.source.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="capitalize text-blue-600 underline"
+                      className="req-radar-capitalize req-radar-text-blue-600 req-radar-underline"
                     >
                       external
                     </a>
                   ) : (
-                    <span className="capitalize">{req.source?.type || 'internal'}</span>
+                    <span className="req-radar-capitalize">{req.source?.type || 'internal'}</span>
                   )}
                 </td>
-                <td className="p-3 border-b text-xs">{avg.toFixed(1)}</td>
+                <td className="req-radar-p-3 req-radar-border-b req-radar-text-xs">{avg.toFixed(1)}</td>
               </tr>
             );
           })}

@@ -24,16 +24,7 @@ npx esbuild "${ROOT_DIR}/src/index.ts" \
   --external:react \
   --external:react-dom/client \
   --external:react/jsx-runtime \
-  --loader:.css=text \
   --sourcemap \
   --outfile="${OUT_DIR}/index.js"
 
-# Build CSS
-npx esbuild "${ROOT_DIR}/src/styles.css" \
-  --bundle \
-  --minify \
-  --sourcemap \
-  --outfile="${OUT_DIR}/index.css"
-
-echo "Built CSS to ${OUT_DIR}/index.css"
 echo "Built plugin to ${OUT_DIR}/index.js"

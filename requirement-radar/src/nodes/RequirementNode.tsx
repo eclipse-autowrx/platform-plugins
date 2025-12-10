@@ -26,8 +26,7 @@ type RequirementNodeData = {
 };
 
 function RequirementNode({ data }: { data: RequirementNodeData }) {
-  const [showDetails, setShowDetails] = React.useState(false);
-  const { isScanning } = useRequirementStore();
+  const { isScanning, setSelectedRequirementId, selectedRequirementId } = useRequirementStore();
 
   const requirement = data.requirement || data;
   // Use nodeSize from data. The node's container is sized by ReactFlow via the style prop.
@@ -35,19 +34,25 @@ function RequirementNode({ data }: { data: RequirementNodeData }) {
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    setShowDetails(!showDetails);
+    // Toggle: if already selected, deselect; otherwise select
+    const nodeId = data.id || data.title;
+    if (selectedRequirementId === nodeId) {
+      setSelectedRequirementId(null);
+    } else {
+      setSelectedRequirementId(nodeId);
+    }
   };
 
   return (
     <div
-      className="relative flex flex-col items-center justify-center w-full h-full cursor-pointer"
+      className="req-radar-relative req-radar-flex req-radar-flex-col req-radar-items-center req-radar-justify-center req-radar-w-full req-radar-h-full req-radar-cursor-pointer"
       onClick={handleClick}
     >
-      <div className={isScanning ? 'animate-pulse' : ''}>
+      <div className={isScanning ? 'req-radar-animate-pulse' : ''}>
         <div
-          className={`rounded-full flex justify-center items-center p-[10px] text-center text-xs font-bold 
-                shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg text-white 
-                ${data.isHidden ? 'hidden' : 'animate-node-appear'}`}
+          className={`req-radar-rounded-full req-radar-flex req-radar-justify-center req-radar-items-center req-radar-p-10 req-radar-text-center req-radar-text-xs req-radar-font-bold 
+                req-radar-shadow-md req-radar-transition-all req-radar-duration-300 req-radar-ease-in-out req-radar-hover-scale-105 req-radar-hover-shadow-lg req-radar-text-white 
+                ${data.isHidden ? 'req-radar-hidden' : 'req-radar-animate-node-appear'}`}
           style={{
             width: `${size}px`,
             height: `${size}px`,
@@ -55,109 +60,16 @@ function RequirementNode({ data }: { data: RequirementNodeData }) {
           }}
         />
         <p
-          className="absolute w-200 overflow-hidden text-ellipsis text-center mt-4 text-sm leading-tight font-medium"
-          style={{ top: `${size * 0.8}px` }}
+          className="req-radar-absolute req-radar-w-200 req-radar-overflow-hidden req-radar-text-ellipsis req-radar-text-center req-radar-mt-4 req-radar-text-sm req-radar-leading-tight req-radar-font-medium"
+          style={{ 
+            top: `${size * 0.8}px`,
+            color: 'var(--req-radar-foreground, oklch(0.4199 0.0374 257.28))'
+          }}
           title={data.title}
         >
           {data.title}
         </p>
       </div>
-
-      {/* Simple Details Popup */}
-      {showDetails && (
-        <div
-          className="fixed bg-white p-3 border rounded-lg shadow-lg overflow-y-auto"
-          style={{
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 9999,
-            minWidth: '250px',
-            maxWidth: '500px',
-            maxHeight: '50vh',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex justify-between items-center mb-2">
-            <div className="flex text-sm font-bold text-da-primary-500">
-              Requirement Details
-            </div>
-            <button
-              className="p-0.5 hover:text-red-500 hover:bg-red-100 rounded-md"
-              onClick={() => setShowDetails(false)}
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="flex flex-col space-y-1.5 text-xs">
-            {data.id && (
-              <div className="flex">
-                <span className="font-semibold text-da-gray-dark mr-1">ID:</span>
-                <span>{data.id}</span>
-              </div>
-            )}
-
-            <div className="flex">
-              <span className="font-semibold text-da-gray-dark mr-1">Title:</span>
-              <span>{data.title}</span>
-            </div>
-
-            {requirement.type && (
-              <div className="flex">
-                <span className="font-semibold text-da-gray-dark mr-1">Type:</span>
-                <span>{requirement.type}</span>
-              </div>
-            )}
-
-            {requirement.description && (
-              <div className="flex flex-col">
-                <span className="font-semibold text-da-gray-dark">Description:</span>
-                <span className="mt-1 ml-4">{requirement.description}</span>
-              </div>
-            )}
-
-            {requirement.source && (
-              <div className="flex flex-col">
-                <span className="font-semibold text-da-gray-dark">Source:</span>
-                <div className="flex space-x-3 mt-1 ml-4">
-                  <div className="capitalize">Type: {requirement.source.type}</div>
-                  {requirement.source.link && (
-                    <div>
-                      Link:{' '}
-                      <a
-                        href={requirement.source.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline text-blue-500"
-                      >
-                        {requirement.source.link}
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {requirement.rating && (
-              <div className="flex flex-col">
-                <span className="font-semibold text-da-gray-dark">Rating:</span>
-                <div className="flex space-x-6 mt-1 ml-4">
-                  {requirement.rating.priority !== undefined && (
-                    <div>Priority: {requirement.rating.priority}/5</div>
-                  )}
-                  {requirement.rating.relevance !== undefined && (
-                    <div>Relevance: {requirement.rating.relevance}/5</div>
-                  )}
-                  {requirement.rating.impact !== undefined && (
-                    <div>Impact: {requirement.rating.impact}/5</div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
