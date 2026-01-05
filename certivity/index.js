@@ -33,6 +33,154 @@
   var ReactDOM = __toESM(__require("react-dom/client"), 1);
   var React2 = __toESM(__require("react"), 1);
 
+  // src/certivityApis.ts
+  var supportedCertivityApis = /* @__PURE__ */ new Set([
+    "Vehicle.Powertrain.Transmission.CurrentGear",
+    "Vehicle.Powertrain.Transmission.SelectedGear",
+    "Vehicle.Powertrain.ElectricMotor.MaxPower",
+    "Vehicle.Powertrain.ElectricMotor.MaxTorque",
+    "Vehicle.Powertrain.ElectricMotor.MaxRegenPower",
+    "Vehicle.Powertrain.ElectricMotor.MaxRegenTorque",
+    "Vehicle.Powertrain.ElectricMotor.Rpm",
+    "Vehicle.Powertrain.ElectricMotor.Temperature",
+    "Vehicle.Powertrain.ElectricMotor.CoolantTemperature",
+    "Vehicle.Powertrain.ElectricMotor.Power",
+    "Vehicle.Powertrain.ElectricMotor.Torque",
+    "Vehicle.Powertrain.TractionBattery",
+    "Vehicle.Powertrain.TractionBattery.Temperature",
+    "Vehicle.Powertrain.TractionBattery.StateOfCharge.Current",
+    "Vehicle.Body.Hood",
+    "Vehicle.Body.Hood.IsOpen",
+    "Vehicle.Body.Trunk.IsOpen",
+    "Vehicle.Body.Trunk.IsLocked",
+    "Vehicle.Body.Mirrors",
+    "Vehicle.Body.Mirrors.Left",
+    "Vehicle.Body.Mirrors.Left.Tilt",
+    "Vehicle.Body.Mirrors.Left.Pan",
+    "Vehicle.Body.Mirrors.Left.Heating",
+    "Vehicle.Body.Mirrors.Left.Heating.Status",
+    "Vehicle.Body.Mirrors.Right",
+    "Vehicle.Body.Mirrors.Right.Tilt",
+    "Vehicle.Body.Mirrors.Right.Pan",
+    "Vehicle.Body.Mirrors.Right.Heating",
+    "Vehicle.Body.Mirrors.Right.Heating.Status",
+    "Vehicle.Cabin.Sunroof",
+    "Vehicle.Cabin.Sunroof.Position",
+    "Vehicle.Cabin.Sunroof.Switch",
+    "Vehicle.Cabin.Sunroof.Shade",
+    "Vehicle.Cabin.Sunroof.Shade.Switch",
+    "Vehicle.Cabin.Sunroof.Shade.Position",
+    "Vehicle.Cabin.Door.Row1.Left.IsOpen",
+    "Vehicle.Cabin.Door.Row1.Left.IsLocked",
+    "Vehicle.Cabin.Door.Row1.Left.Window.isOpen",
+    "Vehicle.Cabin.Door.Row1.Left.Window.Position",
+    "Vehicle.Cabin.Door.Row1.Left.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row1.Left.Window.Switch",
+    "Vehicle.Cabin.Door.Row1.Left.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row1.Left.Shade.Switch",
+    "Vehicle.Cabin.Door.Row1.Left.Shade.Position",
+    "Vehicle.Cabin.Door.Row1.Right.IsOpen",
+    "Vehicle.Cabin.Door.Row1.Right.IsLocked",
+    "Vehicle.Cabin.Door.Row1.Right.Window.isOpen",
+    "Vehicle.Cabin.Door.Row1.Right.Window.Position",
+    "Vehicle.Cabin.Door.Row1.Right.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row1.Right.Window.Switch",
+    "Vehicle.Cabin.Door.Row1.Right.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row1.Right.Shade.Switch",
+    "Vehicle.Cabin.Door.Row1.Right.Shade.Position",
+    "Vehicle.Cabin.Door.Row2.Left.IsOpen",
+    "Vehicle.Cabin.Door.Row2.Left.IsLocked",
+    "Vehicle.Cabin.Door.Row2.Left.Window.isOpen",
+    "Vehicle.Cabin.Door.Row2.Left.Window.Position",
+    "Vehicle.Cabin.Door.Row2.Left.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row2.Left.Window.Switch",
+    "Vehicle.Cabin.Door.Row2.Left.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row2.Left.Shade.Switch",
+    "Vehicle.Cabin.Door.Row2.Left.Shade.Position",
+    "Vehicle.Cabin.Door.Row2.Right.IsOpen",
+    "Vehicle.Cabin.Door.Row2.Right.IsLocked",
+    "Vehicle.Cabin.Door.Row2.Right.Window.isOpen",
+    "Vehicle.Cabin.Door.Row2.Right.Window.Position",
+    "Vehicle.Cabin.Door.Row2.Right.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row2.Right.Window.Switch",
+    "Vehicle.Cabin.Door.Row2.Right.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row2.Right.Shade.Switch",
+    "Vehicle.Cabin.Door.Row2.Right.Shade.Position"
+  ]);
+  var supportedCertivityApis_v4_map = {
+    "Vehicle.Powertrain.Transmission.CurrentGear": "Vehicle.Powertrain.Transmission.CurrentGear",
+    "Vehicle.Powertrain.Transmission.SelectedGear": "Vehicle.Powertrain.Transmission.SelectedGear",
+    "Vehicle.Powertrain.ElectricMotor.MaxPower": "Vehicle.Powertrain.ElectricMotor.MaxPower",
+    "Vehicle.Powertrain.ElectricMotor.MaxTorque": "Vehicle.Powertrain.ElectricMotor.MaxTorque",
+    "Vehicle.Powertrain.ElectricMotor.MaxRegenPower": "Vehicle.Powertrain.ElectricMotor.MaxRegenPower",
+    "Vehicle.Powertrain.ElectricMotor.MaxRegenTorque": "Vehicle.Powertrain.ElectricMotor.MaxRegenTorque",
+    "Vehicle.Powertrain.ElectricMotor.Rpm": "Vehicle.Powertrain.ElectricMotor.Rpm",
+    "Vehicle.Powertrain.ElectricMotor.Temperature": "Vehicle.Powertrain.ElectricMotor.Temperature",
+    "Vehicle.Powertrain.ElectricMotor.CoolantTemperature": "Vehicle.Powertrain.ElectricMotor.CoolantTemperature",
+    "Vehicle.Powertrain.ElectricMotor.Power": "Vehicle.Powertrain.ElectricMotor.Power",
+    "Vehicle.Powertrain.ElectricMotor.Torque": "Vehicle.Powertrain.ElectricMotor.Torque",
+    "Vehicle.Powertrain.TractionBattery": "Vehicle.Powertrain.TractionBattery",
+    "Vehicle.Powertrain.TractionBattery.Temperature": "Vehicle.Powertrain.TractionBattery.Temperature",
+    "Vehicle.Powertrain.TractionBattery.StateOfCharge.Current": "Vehicle.Powertrain.TractionBattery.StateOfCharge.Current",
+    "Vehicle.Body.Hood": "Vehicle.Body.Hood",
+    "Vehicle.Body.Hood.IsOpen": "Vehicle.Body.Hood.IsOpen",
+    "Vehicle.Body.Trunk.IsOpen": "Vehicle.Body.Trunk.IsOpen",
+    "Vehicle.Body.Trunk.IsLocked": "Vehicle.Body.Trunk.IsLocked",
+    "Vehicle.Body.Mirrors": "Vehicle.Body.Mirrors",
+    "Vehicle.Body.Mirrors.DriverSide": "Vehicle.Body.Mirrors.Left",
+    "Vehicle.Body.Mirrors.DriverSide.Tilt": "Vehicle.Body.Mirrors.Left.Tilt",
+    "Vehicle.Body.Mirrors.DriverSide.Pan": "Vehicle.Body.Mirrors.Left.Pan",
+    "Vehicle.Body.Mirrors.DriverSide.Heating": "Vehicle.Body.Mirrors.Left.Heating",
+    "Vehicle.Body.Mirrors.DriverSide.Heating.Status": "Vehicle.Body.Mirrors.Left.Heating.Status",
+    "Vehicle.Body.Mirrors.PassengerSide": "Vehicle.Body.Mirrors.Right",
+    "Vehicle.Body.Mirrors.PassengerSide.Tilt": "Vehicle.Body.Mirrors.Right.Tilt",
+    "Vehicle.Body.Mirrors.PassengerSide.Pan": "Vehicle.Body.Mirrors.Right.Pan",
+    "Vehicle.Body.Mirrors.PassengerSide.Heating": "Vehicle.Body.Mirrors.Right.Heating",
+    "Vehicle.Body.Mirrors.PassengerSide.Heating.Status": "Vehicle.Body.Mirrors.Right.Heating.Status",
+    "Vehicle.Cabin.Sunroof": "Vehicle.Cabin.Sunroof",
+    "Vehicle.Cabin.Sunroof.Position": "Vehicle.Cabin.Sunroof.Position",
+    "Vehicle.Cabin.Sunroof.Switch": "Vehicle.Cabin.Sunroof.Switch",
+    "Vehicle.Cabin.Sunroof.Shade": "Vehicle.Cabin.Sunroof.Shade",
+    "Vehicle.Cabin.Sunroof.Shade.Switch": "Vehicle.Cabin.Sunroof.Shade.Switch",
+    "Vehicle.Cabin.Sunroof.Shade.Position": "Vehicle.Cabin.Sunroof.Shade.Position",
+    "Vehicle.Cabin.Door.Row1.DriverSide.IsOpen": "Vehicle.Cabin.Door.Row1.Left.IsOpen",
+    "Vehicle.Cabin.Door.Row1.DriverSide.IsLocked": "Vehicle.Cabin.Door.Row1.Left.IsLocked",
+    "Vehicle.Cabin.Door.Row1.DriverSide.Window.isOpen": "Vehicle.Cabin.Door.Row1.Left.Window.isOpen",
+    "Vehicle.Cabin.Door.Row1.DriverSide.Window.Position": "Vehicle.Cabin.Door.Row1.Left.Window.Position",
+    "Vehicle.Cabin.Door.Row1.DriverSide.Window.ChildLock": "Vehicle.Cabin.Door.Row1.Left.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row1.DriverSide.Window.Switch": "Vehicle.Cabin.Door.Row1.Left.Window.Switch",
+    "Vehicle.Cabin.Door.Row1.DriverSide.IsChildLockActive": "Vehicle.Cabin.Door.Row1.Left.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row1.DriverSide.Shade.Switch": "Vehicle.Cabin.Door.Row1.Left.Shade.Switch",
+    "Vehicle.Cabin.Door.Row1.DriverSide.Shade.Position": "Vehicle.Cabin.Door.Row1.Left.Shade.Position",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.IsOpen": "Vehicle.Cabin.Door.Row1.Right.IsOpen",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.IsLocked": "Vehicle.Cabin.Door.Row1.Right.IsLocked",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.Window.isOpen": "Vehicle.Cabin.Door.Row1.Right.Window.isOpen",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.Window.Position": "Vehicle.Cabin.Door.Row1.Right.Window.Position",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.Window.ChildLock": "Vehicle.Cabin.Door.Row1.Right.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.Window.Switch": "Vehicle.Cabin.Door.Row1.Right.Window.Switch",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.IsChildLockActive": "Vehicle.Cabin.Door.Row1.Right.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.Shade.Switch": "Vehicle.Cabin.Door.Row1.Right.Shade.Switch",
+    "Vehicle.Cabin.Door.Row1.PassengerSide.Shade.Position": "Vehicle.Cabin.Door.Row1.Right.Shade.Position",
+    "Vehicle.Cabin.Door.Row2.DriverSide.IsOpen": "Vehicle.Cabin.Door.Row2.Left.IsOpen",
+    "Vehicle.Cabin.Door.Row2.DriverSide.IsLocked": "Vehicle.Cabin.Door.Row2.Left.IsLocked",
+    "Vehicle.Cabin.Door.Row2.DriverSide.Window.isOpen": "Vehicle.Cabin.Door.Row2.Left.Window.isOpen",
+    "Vehicle.Cabin.Door.Row2.DriverSide.Window.Position": "Vehicle.Cabin.Door.Row2.Left.Window.Position",
+    "Vehicle.Cabin.Door.Row2.DriverSide.Window.ChildLock": "Vehicle.Cabin.Door.Row2.Left.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row2.DriverSide.Window.Switch": "Vehicle.Cabin.Door.Row2.Left.Window.Switch",
+    "Vehicle.Cabin.Door.Row2.DriverSide.IsChildLockActive": "Vehicle.Cabin.Door.Row2.Left.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row2.DriverSide.Shade.Switch": "Vehicle.Cabin.Door.Row2.Left.Shade.Switch",
+    "Vehicle.Cabin.Door.Row2.DriverSide.Shade.Position": "Vehicle.Cabin.Door.Row2.Left.Shade.Position",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.IsOpen": "Vehicle.Cabin.Door.Row2.Right.IsOpen",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.IsLocked": "Vehicle.Cabin.Door.Row2.Right.IsLocked",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.Window.isOpen": "Vehicle.Cabin.Door.Row2.Right.Window.isOpen",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.Window.Position": "Vehicle.Cabin.Door.Row2.Right.Window.Position",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.Window.ChildLock": "Vehicle.Cabin.Door.Row2.Right.Window.ChildLock",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.Window.Switch": "Vehicle.Cabin.Door.Row2.Right.Window.Switch",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.IsChildLockActive": "Vehicle.Cabin.Door.Row2.Right.IsChildLockActive",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.Shade.Switch": "Vehicle.Cabin.Door.Row2.Right.Shade.Switch",
+    "Vehicle.Cabin.Door.Row2.PassengerSide.Shade.Position": "Vehicle.Cabin.Door.Row2.Right.Shade.Position"
+  };
+
   // src/components/Page.tsx
   var import_jsx_runtime = __require("react/jsx-runtime");
   var React = globalThis.React;
@@ -77,12 +225,134 @@
     }
   ];
   function Page({ data, config, api }) {
-    const [vssApis, setVssApis] = React.useState([]);
     const [selectedApis, setSelectedApis] = React.useState(/* @__PURE__ */ new Set());
-    React.useEffect(() => {
+    const [loading, setLoading] = React.useState(false);
+    const [errorMsg, setErrorMsg] = React.useState("");
+    const [regulationRegions, setRegulationRegions] = React.useState([]);
+    const getApiName = (api2) => {
+      return typeof api2 === "string" ? api2 : api2.name || "";
+    };
+    const isApiSupported = (apiName) => {
+      if (supportedCertivityApis.has(apiName)) {
+        return true;
+      }
+      const mappedName = supportedCertivityApis_v4_map[apiName];
+      return mappedName ? supportedCertivityApis.has(mappedName) : false;
+    };
+    const vssApis = React.useMemo(() => {
       const vssApisData = data?.prototype?.apis?.VSS || [];
-      setVssApis(vssApisData);
+      return [...vssApisData].sort((a, b) => {
+        const aName = getApiName(a);
+        const bName = getApiName(b);
+        const aSupported = isApiSupported(aName);
+        const bSupported = isApiSupported(bName);
+        if (aSupported && !bSupported)
+          return -1;
+        if (!aSupported && bSupported)
+          return 1;
+        return 0;
+      });
     }, [data?.prototype?.apis?.VSS]);
+    const formatRegulations = (regulations) => {
+      let formattedRegulations = [];
+      regulations.forEach((regulation) => {
+        let region = formattedRegulations.find(
+          (r) => r.name === regulation.region
+        );
+        if (!region) {
+          region = {
+            name: regulation.region,
+            types: []
+          };
+          formattedRegulations.push(region);
+        }
+        let type = region.types.find((t) => t.name === regulation.type);
+        if (!type) {
+          type = {
+            name: regulation.type,
+            regulations: []
+          };
+          region.types.push(type);
+        }
+        type.regulations.push({
+          key: regulation.key,
+          titleShort: regulation.titleShort,
+          titleLong: regulation.titleLong
+        });
+      });
+      formattedRegulations.forEach((region) => {
+        region.types.forEach((type) => {
+          type.regulations.sort((a, b) => {
+            try {
+              const aNum = parseInt(a.key.replace(/^[^0-9]+/g, ""));
+              const bNum = parseInt(b.key.replace(/^[^0-9]+/g, ""));
+              return aNum - bNum;
+            } catch (error) {
+              return a.key.localeCompare(b.key);
+            }
+          });
+        });
+      });
+      return formattedRegulations;
+    };
+    React.useEffect(() => {
+      (async () => {
+        try {
+          setLoading(true);
+          setErrorMsg("");
+          if (selectedApis.size > 0) {
+            console.log("Selected APIs:", Array.from(selectedApis));
+            const supportedApiNames = Array.from(selectedApis).map((apiName) => {
+              const apiNameStr = apiName;
+              const isDirectlySupported = supportedCertivityApis.has(apiNameStr);
+              const mappedName = supportedCertivityApis_v4_map[apiNameStr];
+              const result = isDirectlySupported ? apiNameStr : mappedName;
+              console.log(`API: ${apiNameStr}, Directly supported: ${isDirectlySupported}, Mapped: ${mappedName}, Result: ${result}`);
+              return result;
+            }).filter((value) => {
+              const isValid = value && supportedCertivityApis.has(value);
+              console.log(`Filtering ${value}: ${isValid}`);
+              return isValid;
+            });
+            console.log("Supported API names after filtering:", supportedApiNames);
+            if (supportedApiNames.length > 0) {
+              const apiUrl = `https://service.homologation.digital.auto/regulations?vehicleApis=${supportedApiNames.join(",")}`;
+              console.log("Fetching regulations from:", apiUrl);
+              const response = await fetch(apiUrl, {
+                method: "GET",
+                credentials: "include"
+              });
+              console.log("Response status:", response.status, response.ok);
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const regulationsResponse = await response.json();
+              console.log("Regulations response:", regulationsResponse);
+              if (!regulationsResponse || regulationsResponse.length === 0) {
+                console.log("No regulations found in response");
+                setRegulationRegions([]);
+              } else {
+                const formatted = formatRegulations(regulationsResponse);
+                console.log("Formatted regulations:", formatted);
+                setRegulationRegions(formatted);
+              }
+            } else {
+              console.log("No supported APIs found in selection");
+              setRegulationRegions([]);
+            }
+          } else {
+            console.log("No APIs selected");
+            setRegulationRegions([]);
+          }
+        } catch (error) {
+          setErrorMsg("Error fetching regulations");
+          console.error("Error fetching regulations:", error);
+          setRegulationRegions([]);
+        } finally {
+          setLoading(false);
+        }
+      })();
+    }, [selectedApis]);
     const handleToggleApi = (apiName) => {
       setSelectedApis((prev) => {
         const newSet = new Set(prev);
@@ -95,18 +365,16 @@
       });
     };
     const handleSelectAll = () => {
-      if (selectedApis.size === vssApis.length) {
+      const supportedApiNames = vssApis.map((api2) => getApiName(api2)).filter((apiName) => isApiSupported(apiName));
+      const allSupportedSelected = supportedApiNames.length > 0 && supportedApiNames.every((name) => selectedApis.has(name));
+      if (allSupportedSelected) {
         setSelectedApis(/* @__PURE__ */ new Set());
       } else {
-        const allApiNames = vssApis.map((api2) => api2.name || api2);
-        setSelectedApis(new Set(allApiNames));
+        setSelectedApis(new Set(supportedApiNames));
       }
     };
     const handleClearSelection = () => {
       setSelectedApis(/* @__PURE__ */ new Set());
-    };
-    const getApiName = (api2) => {
-      return typeof api2 === "string" ? api2 : api2.name || "";
     };
     const getApiType = (api2) => {
       if (typeof api2 === "string")
@@ -154,7 +422,10 @@
                           "input",
                           {
                             type: "checkbox",
-                            checked: vssApis.length > 0 && selectedApis.size === vssApis.length,
+                            checked: (() => {
+                              const supportedApiNames = vssApis.map((api2) => getApiName(api2)).filter((apiName) => isApiSupported(apiName));
+                              return supportedApiNames.length > 0 && supportedApiNames.every((name) => selectedApis.has(name));
+                            })(),
                             onChange: handleSelectAll,
                             className: "w-4 h-4 cursor-pointer"
                           }
@@ -175,14 +446,15 @@
                       )
                     ] })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex-1 overflow-auto", children: vssApis.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "text-sm text-slate-500 text-center py-4", children: "No signals available" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "space-y-2", children: vssApis.map((api2, index) => {
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex-1 overflow-auto", children: vssApis.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "text-sm text-slate-500 text-center py-4", children: "No signals available" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "space-y-0.5", children: vssApis.map((api2, index) => {
                     const apiName = getApiName(api2);
                     const apiType = getApiType(api2);
                     const isSelected = selectedApis.has(apiName);
+                    const isSupported = isApiSupported(apiName);
                     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                       "div",
                       {
-                        className: "flex items-center justify-between p-2 hover:bg-slate-100 rounded",
+                        className: `flex items-center justify-between py-1 px-2 rounded ${isSupported ? "hover:bg-slate-100" : "opacity-50 cursor-not-allowed"}`,
                         children: [
                           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex items-center gap-2 flex-1 min-w-0", children: [
                             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -190,11 +462,12 @@
                               {
                                 type: "checkbox",
                                 checked: isSelected,
-                                onChange: () => handleToggleApi(apiName),
-                                className: "w-4 h-4 cursor-pointer flex-shrink-0"
+                                disabled: !isSupported,
+                                onChange: () => isSupported && handleToggleApi(apiName),
+                                className: `w-4 h-4 flex-shrink-0 ${isSupported ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`
                               }
                             ),
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "text-sm text-slate-700 truncate", children: apiName })
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `text-sm truncate ${isSupported ? "text-slate-700" : "text-slate-400"}`, children: apiName })
                           ] }),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `text-xs !font-medium uppercase select-none
                             px-2 py-1 rounded-full ${getApiTypeClasses(apiType).bgClass} ${getApiTypeClasses(apiType).textClass}`, children: apiType })
@@ -270,7 +543,31 @@
               style: { backgroundColor: "rgba(225, 231, 239, 0.2)" },
               children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { className: "text-lg font-bold text-slate-700 mb-2", children: "Regulation Compliance" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex-1 overflow-auto" })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex-1 overflow-auto", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center h-full", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "text-sm text-slate-500", children: "Loading regulations..." }) }) : errorMsg ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center h-full italic text-slate-500", children: "<" + errorMsg + ">" }) : regulationRegions.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center h-full italic text-slate-500", children: selectedApis.size === 0 ? "<Please select a supported API>" : "<No regulations found for selected APIs. The selected APIs may not be supported by Certivity.>" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "space-y-7 mt-4", children: regulationRegions.map((region) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "space-y-2", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { className: "font-bold text-lg text-slate-700 mt-5 flex items-center justify-start gap-4", children: [
+                    region.name,
+                    " Region"
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "border-t my-6 border-t-slate-300" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: region.types.map((type) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "font-bold mt-3 text-base text-slate-700", children: type.name }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", { className: "space-y-6 mt-4", children: type.regulations.map((regulation) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "li",
+                      {
+                        className: "mt-3 list-disc ml-4 space-y-2",
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { className: "text-sm font-bold text-slate-700", children: [
+                            regulation.key,
+                            ": ",
+                            regulation.titleShort
+                          ] }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "text-sm text-slate-500", children: regulation.titleLong })
+                        ]
+                      },
+                      regulation.key
+                    )) })
+                  ] }, type.name)) })
+                ] }, region.name)) }) })
               ]
             }
           )
