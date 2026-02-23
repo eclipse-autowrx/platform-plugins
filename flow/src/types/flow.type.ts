@@ -1,3 +1,6 @@
+// Copyright (c) 2025 Eclipse Foundation.
+// SPDX-License-Identifier: MIT
+
 export type Direction =
   | 'left'
   | 'right'
@@ -47,4 +50,3 @@ export interface FlowItemData {
   generatedAt?: string
   [key: string]: string | ASILLevel | undefined
 }
-
