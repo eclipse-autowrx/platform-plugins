@@ -1,7 +1,6 @@
 import * as ReactDOM from 'react-dom/client'
 import * as React from 'react'
-import Page from './Page'
-import './styles.css'
+import Page from './components/Page'
 
 export const components = { Page }
 
@@ -17,10 +16,8 @@ export function unmount(el: HTMLElement) {
   delete (el as any).__aw_root
 }
 
-// Optional global registration
+// Host expects all plugins to register at 'page-plugin' (see PluginPageRender GLOBAL_KEY)
 if (typeof window !== 'undefined') {
   ;(window as any).DAPlugins = (window as any).DAPlugins || {}
   ;(window as any).DAPlugins['page-plugin'] = { components, mount, unmount }
 }
-
-
